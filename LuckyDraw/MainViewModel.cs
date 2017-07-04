@@ -76,7 +76,7 @@ namespace FY18LuckyDraw
       {
          if(Gift.curGift != null )
          {
-            Winners.Clear();
+            //Winners.Clear();
 
             var rand = new Random();
             var drawed = new List<int>();
