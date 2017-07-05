@@ -6,8 +6,8 @@ namespace FY18LuckyDraw
    {
       public WinnerMap()
       {
-         Map( m => m.Name ).Name( "Full Name" );
-         Map( m => m.Department ).Name( "Org" );
+         Map( m => m.Name ).Name( "Name" );
+         Map( m => m.Segment ).Name( "Segment" );
       }
    }
 }

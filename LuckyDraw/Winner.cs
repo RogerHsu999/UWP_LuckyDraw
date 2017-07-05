@@ -12,7 +12,7 @@ namespace FY18LuckyDraw
    public class Winner : INotifyPropertyChanged
    {
       private string _name;
-      private string _department;
+      private string _segment;
 
       public string Name
       {
@@ -31,17 +31,17 @@ namespace FY18LuckyDraw
       }
 
 
-      public string Department
+      public string Segment
       {
          get
          {
-            return _department;
+            return _segment;
          }
          set
          {
-            if( !value.Equals( _department ) )
+            if( !value.Equals( _segment ) )
             {
-               _department = value;
+               _segment = value;
                NotifyPropertyChanged( "Department" );
             }
          }

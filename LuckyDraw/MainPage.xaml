@@ -7,44 +7,45 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <Grid.Background>
-            <ImageBrush x:Name="backgroundGrid" ImageSource="/Assets/MS_Ready_template.png" />
-        </Grid.Background>
 
+    <Grid Background="#002050">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1080"/>
+            <ColumnDefinition Width="1280"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="80" />
+            <RowDefinition Height="200" />
             <RowDefinition Height="80" />
             <RowDefinition Height="80"/>
             <RowDefinition Height="600"/>
         </Grid.RowDefinitions>
+        
+        <Image Grid.Row="0" HorizontalAlignment="Stretch" x:Name="backgroundGrid" Source="/Assets/MS_Ready_template.png" Margin="0,0,-200,0" />
 
-        <Button Grid.Row="1" Margin="20,0" HorizontalAlignment="Right" Click="Button_Click"  Height="240" Width="240" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="Transparent">
-            <Image Source="Assets/start.png" Margin="10,10,10,10" />
+        <Button Grid.Row="0" Margin="120, 50, -120, -50" HorizontalAlignment="Right" Click="Button_Click"  Height="200" Width="200" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="Transparent">
+            <Image x:Name="startBtn" Source="Assets/start.png"/>
         </Button>
 
-        <TextBlock x:Name="giftName"  Grid.Row="2" Text="" Margin="20,10"
-                  Style="{StaticResource SubheaderTextBlockStyle}" Foreground="White"/>
-        <TextBlock x:Name="giftNum"  Grid.Row="3" Text="" Margin="20, 10"
-                  Style="{StaticResource SubheaderTextBlockStyle}" Foreground="White"/>
+        <Image Grid.Row="3" HorizontalAlignment="Right" x:Name="giftPic" Width="300" Margin="130,-150,-135,100" />
 
-        <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="1080" Margin="10, 10" Grid.RowSpan="2">
-            <GridView ItemsSource="{Binding Winners}" Height="600">
+        <TextBlock x:Name="giftName"  Grid.Row="1" Text="" Margin="50, 10, 20, 10"
+                  Style="{StaticResource HeaderTextBlockStyle}" Foreground="White"/>
+        
+        <TextBlock x:Name="giftNum"  Grid.Row="2" Text="" Margin="50, 10,20, 10"
+                  Style="{StaticResource HeaderTextBlockStyle}" Foreground="White"/>
+
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="1080" Margin="40, 10" Grid.RowSpan="2">
+            <GridView ItemsSource="{Binding Winners}" Height="600" Width="1080" SelectionChanged="GridView_SelectionChanged" RenderTransformOrigin="0.5,0.5">
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <Border Height="180" Width="180" Margin="5,10">
+                        <Border Height="150" Width="180" Margin="15,15">
                             <Border.Background>
                                 <SolidColorBrush Color="LightGray" />
                             </Border.Background>
                             <StackPanel Margin="12">
                                 <TextBlock Text="{Binding Name}" 
                      Style="{StaticResource TitleTextBlockStyle}" />
-                                <TextBlock Text="{Binding Department}"
+                                <TextBlock Text="{Binding Segment}"
                      Style="{StaticResource SubtitleTextBlockStyle}" />
                             </StackPanel>
                         </Border>
@@ -53,5 +54,5 @@
             </GridView>
         </ScrollViewer>
     </Grid>
-</Page>
+ </Page>
 

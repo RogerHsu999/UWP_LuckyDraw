@@ -9,6 +9,7 @@ namespace FY18LuckyDraw
          Map( m => m.Name ).Name( "Name" );
          Map( m => m.Quantity ).Name( "Quantity" );
          Map( m => m.Prize ).Name( "Prize" );
+         Map( m => m.Source ).Name( "Source" );
       }
    }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.IO;
 using CsvHelper;
-using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace FY18LuckyDraw
 {
@@ -14,16 +14,30 @@ namespace FY18LuckyDraw
    {
       public ObservableCollection<Winner> Winners { get; private set; }
       private List<Winner> Attendees;
+      private List<int> Drawed = new List<int>();
+      private StorageFile nameStorageFile;
+      private StorageFile resultFile;
+      private Stream resultWriteStream;
 
       public MainViewModel()
       {
          Winners = new ObservableCollection<Winner>();
          Attendees = new List<Winner>();
+
          Init();
       }
 
       private async void Init()
       {
+         Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker();
+         picker.FileTypeFilter.Add( ".csv" );
+         StorageFile file = await picker.PickSingleFileAsync();
+         if( file != null )
+         {
+            nameStorageFile = file;
+         }
+         resultFile = await DownloadsFolder.CreateFileAsync( "result.csv", CreationCollisionOption.GenerateUniqueName );
+
          await Task.Run( () =>
          {
             loadAttendee();
@@ -34,10 +48,10 @@ namespace FY18LuckyDraw
 
       private async void loadAttendee()
       {
-         //string filePath = "C:\\Users\\fanwan\\Desktop\\namelist.csv";
-         string filePath = "namelist.csv";
-
-         using( FileStream fileStream = new FileStream( filePath, FileMode.Open, FileAccess.Read ) )
+         
+         //using( FileStream fileStream = new FileStream( filePath, FileMode.Open, FileAccess.Read ) )
+         //using( StreamReader reader = new StreamReader( fileStream, Encoding.UTF8 ) )
+         using( Stream fileStream = await nameStorageFile.OpenStreamForReadAsync() )
          using( StreamReader reader = new StreamReader( fileStream, Encoding.UTF8 ) )
          using( CsvReader csv = new CsvReader( reader ) )
          {
@@ -45,7 +59,7 @@ namespace FY18LuckyDraw
             while( csv.Read() )
             {
                var attendee = csv.GetRecord<Winner>();
-               Attendees.Add( new Winner() { Name = attendee.Name, Department = attendee.Department } );
+               Attendees.Add( new Winner() { Name = attendee.Name, Segment = attendee.Segment } );
             }
          }
 
@@ -54,17 +68,16 @@ namespace FY18LuckyDraw
 
       private async void loadGift()
       {
-         //string filePath = "C:\\Users\\fanwan\\Desktop\\giftlist.csv";
-         string filePath = "giftlist.csv";
+         string filePath = @"Assets\giftlist.csv";
          using( FileStream fileStream = new FileStream( filePath, FileMode.Open, FileAccess.Read ) )
-         using( StreamReader reader = new StreamReader( fileStream, Encoding.UTF8 ) )
+         using( StreamReader reader = new StreamReader( fileStream ) )
          using( CsvReader csv = new CsvReader( reader ) )
          {
             csv.Configuration.RegisterClassMap<GiftrMap>();
             while( csv.Read() )
             {
                var gift = csv.GetRecord<Gift>();
-               Gift.Gifts.Add( new Gift() { Name = gift.Name, Quantity = gift.Quantity, Prize = gift.Prize } );
+               Gift.Gifts.Add( new Gift() { Name = gift.Name, Quantity = gift.Quantity, Prize = gift.Prize, Source = gift.Source} );
             }
          }
 
@@ -72,14 +85,13 @@ namespace FY18LuckyDraw
       }
 
 
-      public void StartDraw()
+      public async void StartDraw()
       {
          if(Gift.curGift != null )
          {
-            //Winners.Clear();
+            Winners.Clear();
 
             var rand = new Random();
-            var drawed = new List<int>();
             int length = Attendees.Count;
             int index;
 
@@ -88,16 +100,34 @@ namespace FY18LuckyDraw
                do
                {
                   index = rand.Next() % length;
-               } while( drawed.Contains( index ) );
-               drawed.Add( index );
+               } while( Drawed.Contains( index ) );
+               Drawed.Add( index );
 
                Winners.Add( Attendees[ index ] );
             }
 
-            Gift.curGift.Output();
+            Output(Gift.curGift.Name);
             Gift.GetNext();
 
          }
+      }
+
+      public async void Output( string giftName )
+      {
+         using( var resultWriteStream = await resultFile.OpenStreamForWriteAsync() )
+         using( var writer = new StreamWriter( resultWriteStream ) )
+         {
+            writer.BaseStream.Seek( 0, SeekOrigin.End );
+            using( var csvWriter = new CsvWriter( writer ) )
+               foreach( var winner in Winners )
+               {
+                  csvWriter.WriteField( giftName );
+                  csvWriter.WriteField( winner.Name );
+                  csvWriter.WriteField( winner.Segment );
+                  csvWriter.NextRecord();
+               }
+         }
+         return;
       }
    }
 }

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using CsvHelper;
+using System.IO;
+using Windows.Storage;
 
 namespace FY18LuckyDraw
 {
@@ -15,9 +19,11 @@ namespace FY18LuckyDraw
       private static int curGiftIndex;
 
 
-      private string _name;
+
+   private string _name;
       private int _quantity;
       private string _prize;
+      private string _source;
 
       public string Name
       {
@@ -67,6 +73,22 @@ namespace FY18LuckyDraw
          }
       }
 
+      public string Source
+      {
+         get
+         {
+            return _source;
+         }
+         set
+         {
+            if( !value.Equals( _source ) )
+            {
+               _source = value;
+               NotifyPropertyChanged( "Source" );
+            }
+         }
+      }
+
       public static void Init()
       {
          TotalGiftNumber = Gifts.Count;
@@ -76,13 +98,7 @@ namespace FY18LuckyDraw
             curGiftIndex = 0;
          }
       }
-      public void Output()
-      {
-         //output current Gift
-
-         return;
-      }
-
+      
       public static void GetNext()
       {
          curGiftIndex++;

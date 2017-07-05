@@ -18,6 +18,10 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>App2_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -110,8 +114,32 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="App2_TemporaryKey.pfx" />
+    <Content Include="Assets\giftlist.csv" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\0_recolte.jpg" />
+    <Content Include="Assets\10_pana.jpg" />
+    <Content Include="Assets\11_china.jpg" />
+    <Content Include="Assets\12_bose.jpg" />
+    <Content Include="Assets\13_mi.jpg" />
+    <Content Include="Assets\14_uniflame.jpg" />
+    <Content Include="Assets\15_osim.jpg" />
+    <Content Include="Assets\16_bose.jpg" />
+    <Content Include="Assets\17_ricoh.jpg" />
+    <Content Include="Assets\18_cash.jpg" />
+    <Content Include="Assets\19_travel.jpg" />
+    <Content Include="Assets\1_yogurt.jpg" />
+    <Content Include="Assets\20_travel.jpg" />
+    <Content Include="Assets\21_cash.jpg" />
+    <Content Include="Assets\22_cash.jpg" />
+    <Content Include="Assets\2_KTV.jpg" />
+    <Content Include="Assets\3_MERIDIEN.jpg" />
+    <Content Include="Assets\4_polaroid.jpg" />
+    <Content Include="Assets\5_bruno.jpg" />
+    <Content Include="Assets\6_bruno.jpg" />
+    <Content Include="Assets\7_ostrich.jpg" />
+    <Content Include="Assets\8_iris.jpg" />
+    <Content Include="Assets\9_pana.jpg" />
     <Content Include="Assets\MS_Ready_template.png" />
     <Content Include="Assets\start.png" />
     <Content Include="Properties\Default.rd.xml" />
