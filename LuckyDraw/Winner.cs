@@ -11,8 +11,23 @@ namespace FY18LuckyDraw
 {
    public class Winner : INotifyPropertyChanged
    {
+      private string _id;
       private string _name;
       private string _segment;
+      public string Id
+      {
+         get
+         {
+            return _id;
+         }
+         set
+         {
+            if( !value.Equals( _id ) )
+            {
+               _id = value;
+            }
+         }
+      }
 
       public string Name
       {

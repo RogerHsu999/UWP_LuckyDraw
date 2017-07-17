@@ -122,6 +122,7 @@ namespace FY18LuckyDraw
                foreach( var winner in Winners )
                {
                   csvWriter.WriteField( giftName );
+                  csvWriter.WriteField( winner.Id );
                   csvWriter.WriteField( winner.Name );
                   csvWriter.WriteField( winner.Segment );
                   csvWriter.NextRecord();
